@@ -1,47 +1,37 @@
-# BB Memory V2
+# BB Memory
 
 A speculative internal product concept for Bakken & Bæck: a collective memory that helps a distributed creative team discover what it has already learned.
 
-## What's new in V2
+Describe a problem in your own words. BB Memory retrieves related learnings, explains why they appeared, and points to the people and projects behind them.
 
-- **Real semantic search in the browser** using `Xenova/all-MiniLM-L6-v2` via Hugging Face Transformers.js.
-- Search is based on vector similarity, not a predefined keyword/result map.
-- Each memory is embedded from its title, summary, context, experiments, findings, decisions and tags.
-- Query and memory vectors are normalized and ranked using cosine similarity (dot product after normalization).
-- A small lexical boost preserves useful exact-term matches.
-- The UI shows when semantic indexing is loading, ready, or has fallen back to keyword search.
-- AI search can be toggled off to compare semantic retrieval with conventional keyword search.
-- Memory contribution remains local to the prototype; new memories are included in subsequent semantic searches.
-
-## Run in Cursor
+## Run
 
 ```bash
 npm install
 npm run dev
 ```
 
-The first semantic search downloads the MiniLM model in the browser. Depending on connection speed, this can take a little while. Transformers.js uses the browser cache after the first load.
+The first semantic search downloads `Xenova/all-MiniLM-L6-v2` in the browser via Transformers.js. After that, the model is cached locally. No API key is required. Queries are not sent to an external LLM.
 
-## Product note
+## What is real
 
-The memories and people in this prototype are **fictionalised demo data** inspired by themes in BB's publicly available work. They are not presented as internal BB information.
+- **Semantic retrieval** — MiniLM embeddings, cosine similarity, plus a small lexical and concept boost.
+- **Public BB projects** — Machine Windows, Everyday Experiments, Sanity, Sierra, På(fyll), used as environments with links to public case pages.
 
-The product is intentionally a speculative hypothesis: an external designer cannot know whether BB currently experiences this exact problem without internal research.
+## What is prototype fiction
 
-## AI architecture
+People are fictional composites. Memories are fictionalised learnings *inspired by* public BB writing, each labelled and sourced. This is not internal BB information, and it does not claim BB currently has this problem.
+
+## Search pipeline
 
 ```text
 User query
-   ↓
-MiniLM embedding
-   ↓
-Compare against memory embeddings
-   ↓
-Cosine similarity + small lexical signal
-   ↓
-Ranked memories
-   ↓
-Contextual relevance explanation
+   → related concepts (deterministic lexicon)
+   → MiniLM embedding
+   → compare with memory embeddings
+   → rank (cosine + small lexical/concept signal)
+   → human-language relevance note
+   → results, or an honest low-confidence state
 ```
 
-The model runs client-side, so the demo does not require an API key and does not send the query to an external LLM service.
+AI recommends. Humans interpret. There is no chatbot.
